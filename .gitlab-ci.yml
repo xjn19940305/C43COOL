@@ -1,0 +1,136 @@
+.auto-deploy:
+  image: "registry-vpc.cn-shanghai.aliyuncs.com/gitlab_proxy/auto-deploy-image:v2.6.0"
+  dependencies: []
+
+stages:
+  - build
+  - deploy
+  - cleanup
+
+#-----------------------------开发-----------------------------
+development-national-build:
+  stage: build
+  image: docker:latest
+  services:
+    - name: registry.cn-shanghai.aliyuncs.com/gitlab_proxy/docker:dind
+    # - name: "docker:20.10.6-dind"
+      command: ['--tls=false', '--host=tcp://0.0.0.0:2375']
+  variables:
+    DOCKER_TLS_CERTDIR: ''
+    DOCKER_DRIVER: overlay2
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build --pull -t "$CI_REGISTRY_IMAGE":$CI_COMMIT_TAG . -f App/National-diseases/Dockerfile
+    - docker push "$CI_REGISTRY_IMAGE":$CI_COMMIT_TAG
+development-national-deploy:
+  extends: .auto-deploy
+  stage: deploy
+  variables:
+    ROLLOUT_RESOURCE_TYPE: deployment
+    CI_APPLICATION_TAG: $CI_COMMIT_TAG
+    HELM_UPGRADE_VALUES_FILE: './.gitlab/development/national-values.yaml'
+    CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE
+    AUTO_DEVOPS_CHART: './charts/national'
+    HELM_RELEASE_NAME: 'national'
+  script:
+    - export KUBE_NAMESPACE=dev-medstudy
+    - auto-deploy check_kube_domain
+    - auto-deploy download_chart
+    - auto-deploy ensure_namespace
+    - auto-deploy create_secret
+    - auto-deploy deploy
+  environment:
+    name: development
+    url: http://dev-national-api.$KUBE_INGRESS_BASE_DOMAIN
+    on_stop: stop_national-development
+  when: manual
+test-national-deploy:
+  extends: .auto-deploy
+  stage: deploy
+  variables:
+    ROLLOUT_RESOURCE_TYPE: deployment
+    CI_APPLICATION_TAG: $CI_COMMIT_TAG
+    HELM_UPGRADE_VALUES_FILE: './.gitlab/test/national-values.yaml'
+    CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE
+    AUTO_DEVOPS_CHART: './charts/national'
+    HELM_RELEASE_NAME: 'national'
+  script:
+    - export KUBE_NAMESPACE=test-medstudy
+    - auto-deploy check_kube_domain
+    - auto-deploy download_chart
+    - auto-deploy ensure_namespace
+    - auto-deploy create_secret
+    - auto-deploy deploy
+  environment:
+    name: development
+    url: http://test-national-api.$KUBE_INGRESS_BASE_DOMAIN
+    on_stop: stop_national-test
+  when: manual
+
+prod-national-deploy:
+  extends: .auto-deploy
+  stage: deploy
+  variables:
+    ROLLOUT_RESOURCE_TYPE: deployment
+    CI_APPLICATION_TAG: $CI_COMMIT_TAG
+    HELM_UPGRADE_VALUES_FILE: './.gitlab/production/national-values.yaml'
+    CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE
+    AUTO_DEVOPS_CHART: './charts/national'
+    HELM_RELEASE_NAME: 'national'
+  script:
+    - export KUBE_NAMESPACE=prod-medstudy
+    - auto-deploy check_kube_domain
+    - auto-deploy download_chart
+    - auto-deploy ensure_namespace
+    - auto-deploy create_secret
+    - auto-deploy deploy
+  environment:
+    name: development
+    url: http://national-api.$KUBE_INGRESS_BASE_DOMAIN
+    on_stop: stop_national-prod
+  when: manual
+
+stop_national-prod:
+  extends: .auto-deploy
+  stage: cleanup
+  variables:
+    GIT_STRATEGY: none
+  environment:
+    name: development
+    action: stop
+  allow_failure: true
+  script:
+    - export KUBE_NAMESPACE=prod-medstudy
+    - auto-deploy delete
+  when: manual
+stop_national-development:
+  extends: .auto-deploy
+  stage: cleanup
+  variables:
+    GIT_STRATEGY: none
+  environment:
+    name: development
+    action: stop
+  allow_failure: true
+  script:
+    - export KUBE_NAMESPACE=dev-medstudy
+    - auto-deploy delete
+  when: manual
+  except:
+    variables:
+      - $CI_COMMIT_TAG
+      - $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+stop_national-test:
+  extends: .auto-deploy
+  stage: cleanup
+  variables:
+    GIT_STRATEGY: none
+  environment:
+    name: development
+    action: stop
+  allow_failure: true
+  script:
+    - export KUBE_NAMESPACE=test-medstudy
+    - auto-deploy delete
+  when: manual
