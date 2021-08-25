@@ -268,13 +268,15 @@ namespace C43COOL.Api
                     c.SwaggerEndpoint("/swagger/front/swagger.json", "Front");
                 });
             }
-
-            app.UseHttpsRedirection();
-
+            app.UseForwardedHeaders();
+            app.UseHealthChecks("/hc");
+            app.UseHsts();
+            //app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseCors();
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
