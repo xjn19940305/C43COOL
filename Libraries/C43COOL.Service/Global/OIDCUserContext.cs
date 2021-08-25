@@ -58,6 +58,8 @@ namespace C43COOL.Service.Global
 
         public string OpenId => getClaimString("OpenId");
 
+        public string CascadeId => getClaimString("CascadeId");
+
         //string IUserContext.OpenId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public IEnumerable<Claim> GetClaims() => claims;

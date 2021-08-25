@@ -237,6 +237,7 @@ namespace C43COOL.Api
             services.TryAddScoped<IUserManagementService, UserManagementService>();
             services.TryAddScoped<IRoleManagementService, RoleManagementService>();
             services.TryAddScoped<IModulesManagementService, ModulesManagementService>();
+            services.TryAddScoped<IDepartmentManagementService, DepartmentManagementService>();
             //Ìí¼ÓQuartz·þÎñ
             services.AddSingleton<IJobFactory, SingletonJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();

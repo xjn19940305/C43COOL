@@ -15,8 +15,9 @@ namespace C43COOL.Domain
         public DbSet<Modules> Modules { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<RoleModules> RoleModules { get; set; }
-
         public DbSet<JobSchedule> JobSchedule { get; set; }
+
+        public DbSet<Department> Department { get; set; }
 
         public C43DbContext(DbContextOptions options) : base(options)
         {

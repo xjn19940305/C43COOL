@@ -51,8 +51,8 @@ namespace C43COOL.Service.Impl.Management
         public async Task Modify(ModulesModifyModel model)
         {
             var data = await dbContext.Modules.FirstOrDefaultAsync(x => x.Id == model.Id);
-            var menu = mapper.Map(model, data);
-            menu.DateModify = DateTime.UtcNow;
+            var Module = mapper.Map(model, data);
+            Module.DateModify = DateTime.UtcNow;
             await dbContext.SaveChangesAsync();
         }
         public async Task Delete(string[] ids)

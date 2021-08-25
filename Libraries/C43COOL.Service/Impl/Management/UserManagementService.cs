@@ -118,7 +118,8 @@ namespace C43COOL.Service.Impl.Management
                 new Claim(JwtRegisteredClaimNames.Sub, entity.Id),
                 new Claim(IdentityModel.JwtClaimTypes.NickName,entity.Name),
                 new Claim("avatar",!string.IsNullOrWhiteSpace(entity.Avatar)?entity.Avatar: string.Empty),
-                new Claim("OpenId",!string.IsNullOrWhiteSpace(entity.OpenId)?entity.OpenId: string.Empty),
+                new Claim("OpenId",!string.IsNullOrWhiteSpace(entity.OpenId)?entity.OpenId: string.Empty)
+                //new Claim("",)
             });
             return jwtService.GetToken(claims);
         }

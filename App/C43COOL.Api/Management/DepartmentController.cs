@@ -1,4 +1,4 @@
-﻿using C43COOL.Models.Modules.Management;
+﻿using C43COOL.Models.Department.Management;
 using C43COOL.Service.Interface.Management;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,51 +13,51 @@ namespace C43COOL.Api.Management
     [Route("api/mgt/[controller]/[action]")]
     [ApiExplorerSettings(GroupName = "manager")]
     [Authorize]
-    public class ModulesController : ControllerBase
+    public class DepartmentController:ControllerBase
     {
-        private readonly IModulesManagementService service;
+        private readonly IDepartmentManagementService service;
 
-        public ModulesController(
-            IModulesManagementService service
+        public DepartmentController(
+            IDepartmentManagementService service
             )
         {
             this.service = service;
         }
-
         /// <summary>
-        /// 模块列表查询
+        /// 部门列表查询
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Query([FromQuery] ModulesQueryModel request)
+        public async Task<IActionResult> Query([FromQuery] DepartmentQueryModel request)
         {
             return Ok(await service.Query(request));
         }
         /// <summary>
-        /// 新增模块
+        /// 新增部门
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ModulesCreateModel model)
+        [AllowAnonymous]
+        public async Task<IActionResult> Create([FromBody] DepartmentCreateModel model)
         {
             await service.Create(model);
             return Ok();
         }
         /// <summary>
-        /// 修改模块
+        /// 修改部门
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> Modify([FromBody] ModulesModifyModel model)
+        public async Task<IActionResult> Modify([FromBody] DepartmentModifyModel model)
         {
             await service.Modify(model);
             return Ok();
         }
         /// <summary>
-        /// 删除模块
+        /// 删除部门
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>

@@ -20,6 +20,7 @@ namespace C43COOL.Service.Global
         string ZoneInfo { get; }
         string Locale { get; }
         string OpenId { get; }
+        string CascadeId { get; }
         DateTime? BirthDate { get; }
         DateTime? UpdatedAt { get; }
         IPAddress UserIpAddress { get; }
