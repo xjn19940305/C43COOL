@@ -16,10 +16,8 @@ namespace C43COOL.Domain.Base
 
         public int Sort { get; set; }
 
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
         public DateTime? DateModify { get; set; }
-
-        public ICollection<RoleModules> RoleMenus { get; set; } = new HashSet<RoleModules>();
     }
 }

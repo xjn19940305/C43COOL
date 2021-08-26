@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using C43COOL.Domain;
 using C43COOL.Domain.Base;
+using C43COOL.Infrastructure;
 using C43COOL.Models.Paging;
 using C43COOL.Models.Role.Management;
 using C43COOL.Service.Global;
@@ -50,8 +51,6 @@ namespace C43COOL.Service.Impl.Management
             if (await dbContext.Roles.AnyAsync(x => x.Name == model.Name))
                 throw new Exception("角色名称重复!");
             var entity = mapper.Map<Role>(model);
-            entity.Id = Guid.NewGuid().ToString();
-            entity.DateCreated = DateTime.Now;
             await dbContext.AddAsync(entity);
             await dbContext.SaveChangesAsync();
         }
@@ -70,14 +69,15 @@ namespace C43COOL.Service.Impl.Management
         }
         public async Task AuthorizeRole(RoleMenuAuthorizeModel model)
         {
-            var RoleMenu = await dbContext.RoleModules.Where(x => x.RoleId == model.RoleId).ToListAsync();
-            dbContext.RemoveRange(RoleMenu);
+            var RoleModule = await dbContext.Relevances.Where(x => x.Key == Define.ROLEMODULE && x.FirstId == model.RoleId).ToListAsync();
+            dbContext.RemoveRange(RoleModule);
             foreach (var item in model.ModuleIds)
             {
-                await dbContext.AddAsync(new RoleModules
+                await dbContext.AddAsync(new Relevance
                 {
-                    ModulesId = item,
-                    RoleId = model.RoleId
+                    FirstId = model.RoleId,
+                    SencondId = item,
+                    Key = Define.ROLEMODULE
                 });
             }
             await dbContext.SaveChangesAsync();
@@ -90,7 +90,7 @@ namespace C43COOL.Service.Impl.Management
 
         public async Task<string[]> GetRoleModules(string RoleId)
         {
-            return await dbContext.RoleModules.Where(x => x.RoleId == RoleId).Select(x => x.ModulesId).ToArrayAsync();
+            return await dbContext.Relevances.Where(x => x.Key == Define.ROLEMODULE && x.FirstId == RoleId).Select(x => x.SencondId).ToArrayAsync();
         }
 
     }

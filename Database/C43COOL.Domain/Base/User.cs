@@ -40,7 +40,5 @@ namespace C43COOL.Domain.Base
         /// 账号启用禁用
         /// </summary>
         public bool Enabled { get; set; }
-
-        public ICollection<UserRole> UserRole { get; set; } = new HashSet<UserRole>();
     }
 }

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace C43COOL.MySql.Migrations
 {
     [DbContext(typeof(C43DbContext))]
-    [Migration("20210825071502_adddepartment")]
-    partial class adddepartment
+    [Migration("20210826054557_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -130,6 +130,34 @@ namespace C43COOL.MySql.Migrations
                     b.ToTable("Modules");
                 });
 
+            modelBuilder.Entity("C43COOL.Domain.Base.Relevance", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("CascadeId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("FirstId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("SencondId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Relevances");
+                });
+
             modelBuilder.Entity("C43COOL.Domain.Base.Role", b =>
                 {
                     b.Property<string>("Id")
@@ -153,32 +181,6 @@ namespace C43COOL.MySql.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("C43COOL.Domain.Base.RoleModules", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("DateModify")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("ModulesId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ModulesId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("RoleModules");
                 });
 
             modelBuilder.Entity("C43COOL.Domain.Base.User", b =>
@@ -243,72 +245,6 @@ namespace C43COOL.MySql.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("C43COOL.Domain.Base.UserRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("DateModify")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserRoles");
-                });
-
-            modelBuilder.Entity("C43COOL.Domain.Base.RoleModules", b =>
-                {
-                    b.HasOne("C43COOL.Domain.Base.Modules", "Modules")
-                        .WithMany()
-                        .HasForeignKey("ModulesId");
-
-                    b.HasOne("C43COOL.Domain.Base.Role", "Role")
-                        .WithMany("RoleMenus")
-                        .HasForeignKey("RoleId");
-
-                    b.Navigation("Modules");
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("C43COOL.Domain.Base.UserRole", b =>
-                {
-                    b.HasOne("C43COOL.Domain.Base.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
-
-                    b.HasOne("C43COOL.Domain.Base.User", "User")
-                        .WithMany("UserRole")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("C43COOL.Domain.Base.Role", b =>
-                {
-                    b.Navigation("RoleMenus");
-                });
-
-            modelBuilder.Entity("C43COOL.Domain.Base.User", b =>
-                {
-                    b.Navigation("UserRole");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,6 +8,23 @@ namespace C43COOL.MySql.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Department",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Sort = table.Column<int>(type: "int", nullable: false),
+                    ParentId = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    CascadeId = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ModifyDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Department", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "JobSchedule",
                 columns: table => new
                 {
@@ -48,6 +65,23 @@ namespace C43COOL.MySql.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Modules", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Relevances",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    FirstId = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    SencondId = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Key = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    CascadeId = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ModifyDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Relevances", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,95 +128,21 @@ namespace C43COOL.MySql.Migrations
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "RoleModules",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    RoleId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true),
-                    ModulesId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    DateModify = table.Column<DateTime>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RoleModules", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RoleModules_Modules_ModulesId",
-                        column: x => x.ModulesId,
-                        principalTable: "Modules",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RoleModules_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRoles",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true),
-                    RoleId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    DateModify = table.Column<DateTime>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRoles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoleModules_ModulesId",
-                table: "RoleModules",
-                column: "ModulesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoleModules_RoleId",
-                table: "RoleModules",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_RoleId",
-                table: "UserRoles",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserId",
-                table: "UserRoles",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Department");
+
+            migrationBuilder.DropTable(
                 name: "JobSchedule");
 
             migrationBuilder.DropTable(
-                name: "RoleModules");
-
-            migrationBuilder.DropTable(
-                name: "UserRoles");
-
-            migrationBuilder.DropTable(
                 name: "Modules");
+
+            migrationBuilder.DropTable(
+                name: "Relevances");
 
             migrationBuilder.DropTable(
                 name: "Roles");
