@@ -8,6 +8,7 @@ using C43COOL.ScheduleTask.Jobs;
 using C43COOL.Service.Global;
 using C43COOL.Service.Impl.Management;
 using C43COOL.Service.Interface.Management;
+using C43COOL.Service.Permission.Strategy;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -238,6 +239,11 @@ namespace C43COOL.Api
             services.TryAddScoped<IRoleManagementService, RoleManagementService>();
             services.TryAddScoped<IModulesManagementService, ModulesManagementService>();
             services.TryAddScoped<IDepartmentManagementService, DepartmentManagementService>();
+
+            //策略模式
+            services.TryAddScoped<AdminAuthStrategy>();
+            services.TryAddScoped<NormalAuthStrategy>();
+            services.TryAddScoped<AuthContextFactory>();
             //添加Quartz服务
             services.AddSingleton<IJobFactory, SingletonJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();

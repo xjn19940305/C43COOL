@@ -109,5 +109,26 @@ namespace C43COOL.Api.Management
         {
             return Ok(await service.GetUserInfo());
         }
+        /// <summary>
+        /// 根据登录用户获得所对应的菜单及按钮权限
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetModules()
+        {
+            return Ok(await service.GetModules());
+        }
+        /// <summary>
+        /// 绑定角色
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> BindRole([FromBody] UserBindModel model)
+        {
+            await service.BindRole(model);
+            return Ok();
+        }
     }
 }

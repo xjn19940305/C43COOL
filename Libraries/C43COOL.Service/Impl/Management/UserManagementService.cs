@@ -2,10 +2,12 @@
 using C43COOL.Domain;
 using C43COOL.Domain.Base;
 using C43COOL.Infrastructure;
+using C43COOL.Models.Modules.Management;
 using C43COOL.Models.Paging;
 using C43COOL.Models.User.Management;
 using C43COOL.Service.Global;
 using C43COOL.Service.Interface.Management;
+using C43COOL.Service.Permission.Strategy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -25,13 +27,15 @@ namespace C43COOL.Service.Impl.Management
         private readonly JwtService jwtService;
         private readonly IConfiguration configuration;
         private readonly IUserContext userContext;
+        private readonly AuthContextFactory authContextFactory;
         private string Salt = string.Empty;
         public UserManagementService(
             C43DbContext dbContext,
             IMapper mapper,
             JwtService jwtService,
             IConfiguration configuration,
-            IUserContext userContext
+            IUserContext userContext,
+            AuthContextFactory authContextFactory
             )
         {
             this.dbContext = dbContext;
@@ -39,6 +43,7 @@ namespace C43COOL.Service.Impl.Management
             this.jwtService = jwtService;
             this.configuration = configuration;
             this.userContext = userContext;
+            this.authContextFactory = authContextFactory;
             Salt = configuration.GetSection("Salt").Value;
         }
 
@@ -122,6 +127,33 @@ namespace C43COOL.Service.Impl.Management
                 //new Claim("",)
             });
             return jwtService.GetToken(claims);
+        }
+
+        public async Task<List<ModuleViewModel>> GetModules()
+        {
+            var strategy = authContextFactory.GetAuthStrategyContext(userContext.Name);
+            return strategy.Modules;
+        }
+
+        public async Task BindRole(UserBindModel model)
+        {
+            var userRole = await dbContext.Relevances.Where(x => x.Key == Define.USERROLE && x.FirstId == model.UserId).ToListAsync();
+            foreach (var RoleId in model.RoleIds)
+            {
+                var dt = userRole.FirstOrDefault(x => x.SencondId == RoleId);
+                if (dt != null)
+                    userRole.Remove(dt);
+                else
+                {
+                    await dbContext.AddAsync(new Relevance
+                    {
+                        Key = Define.USERROLE,
+                        FirstId = model.UserId,
+                        SencondId = RoleId
+                    });
+                }
+            }
+            await dbContext.SaveChangesAsync();
         }
     }
 }

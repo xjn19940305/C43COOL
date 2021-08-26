@@ -1,4 +1,5 @@
-﻿using C43COOL.Models.Paging;
+﻿using C43COOL.Models.Modules.Management;
+using C43COOL.Models.Paging;
 using C43COOL.Models.User.Management;
 using System;
 using System.Collections.Generic;
@@ -57,5 +58,17 @@ namespace C43COOL.Service.Interface.Management
         /// <param name="UserId"></param>
         /// <returns></returns>
         Task<UserInfoModel> Get(string UserId);
+        /// <summary>
+        /// 根据登录用户获取对应的菜单权限
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ModuleViewModel>> GetModules();
+
+        /// <summary>
+        /// 给用户绑定角色
+        /// </summary>
+        /// <param name="RoleIds"></param>
+        /// <returns></returns>
+        Task BindRole(UserBindModel model);
     }
 }
