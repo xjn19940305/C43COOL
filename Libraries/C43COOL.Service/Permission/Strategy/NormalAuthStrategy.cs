@@ -34,7 +34,8 @@ namespace C43COOL.Service.Permission.Strategy
             get
             {
                 var ModuleIds = dbContext.Relevances.Where(x => x.Key == Define.ROLEMODULE && Role.Select(g => g.Id).Contains(x.FirstId))
-                    .Select(f => f.SencondId).ToList();
+                    .Select(f => f.SencondId)
+                    .ToList();
                 return mapper.ProjectTo<ModuleViewModel>(dbContext.Modules.Where(f => ModuleIds.Contains(f.Id)).AsNoTracking()).ToList();
             }
         }

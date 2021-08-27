@@ -14,6 +14,7 @@ namespace C43COOL.Redis
         private readonly IConfiguration configuration;
         private IDatabase db;
         private string prefix;
+        private ConnectionMultiplexer manager;
         public RedisCache(
             IConfiguration configuration
             )
@@ -21,8 +22,8 @@ namespace C43COOL.Redis
             this.configuration = configuration;
             var conn = this.configuration.GetSection("Redis:Connection").Value;
             prefix = this.configuration.GetSection("Redis:Prefix").Value;
-            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(conn);
-            db = redis.GetDatabase();
+            manager = ConnectionMultiplexer.Connect(conn);
+            db = manager.GetDatabase();
         }
 
         public async Task SetAsync<T>(string key, T value, DateTime? dt = null) where T : class
@@ -96,6 +97,37 @@ namespace C43COOL.Redis
         {
             var keyName = $"{prefix}:{key}";
             return await db.LockReleaseAsync(keyName, value);
+        }
+        /// <summary>
+        /// 往指定通道发送消息
+        /// </summary>
+        /// <param name="Channel"></param>
+        /// <param name="Message"></param>
+        /// <returns></returns>
+        public async Task PublishAsync(string Channel, string Message)
+        {
+            await db.PublishAsync(Channel, Message);
+        }
+        /// <summary>
+        /// 订阅通道
+        /// </summary>
+        /// <param name="Channel"></param>
+        /// <param name="Action"></param>
+        /// <returns></returns>
+        public async Task SubscribeAsync(string Channel, Action<RedisChannel, RedisValue> Action)
+        {
+            var sub = manager.GetSubscriber();
+            await sub.SubscribeAsync(Channel, Action);
+        }
+        /// <summary>
+        /// 取消订阅通道
+        /// </summary>
+        /// <param name="Channel"></param>
+        /// <returns></returns>
+        public  async Task UnSubscribeAsync(string Channel)
+        {
+            var sub = manager.GetSubscriber();
+            await sub.UnsubscribeAsync(Channel);
         }
     }
 }

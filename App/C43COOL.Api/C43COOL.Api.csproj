@@ -35,8 +35,4 @@
     <ProjectReference Include="..\..\Model\C43COOL.Models\C43COOL.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

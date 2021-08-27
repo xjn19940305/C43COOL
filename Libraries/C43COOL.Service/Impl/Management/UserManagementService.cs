@@ -109,21 +109,22 @@ namespace C43COOL.Service.Impl.Management
 
         public async Task<string> SignInWithPassword(LoginSignInWithPasswordModel model)
         {
-            if (!await dbContext.User.AnyAsync(x => x.PhoneNumber == model.Account))
+            var User = await dbContext.User.FirstOrDefaultAsync(x => x.PhoneNumber == model.Account);
+            if (User != null)
                 throw new Exception("账号不存在!");
             var pwd = model.Password.GetMd5WithSalt(Salt);
-            var entity = await dbContext.User.FirstOrDefaultAsync(x => x.PhoneNumber == model.Account && x.Password == pwd);
-            if (entity == null)
+            if (User.Password != pwd)
                 throw new Exception("账号或密码错误!");
-            if (!entity.Enabled)
+            if (!User.Enabled)
                 throw new Exception("该用户已被锁定!");
             var claims = new List<Claim>();
             claims.AddRange(new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, entity.Id),
-                new Claim(IdentityModel.JwtClaimTypes.NickName,entity.Name),
-                new Claim("avatar",!string.IsNullOrWhiteSpace(entity.Avatar)?entity.Avatar: string.Empty),
-                new Claim("OpenId",!string.IsNullOrWhiteSpace(entity.OpenId)?entity.OpenId: string.Empty)
+                new Claim(JwtRegisteredClaimNames.Sub, User.Id),
+                new Claim(IdentityModel.JwtClaimTypes.NickName,User.NickName),
+                new Claim(IdentityModel.JwtClaimTypes.Name,User.Name),
+                new Claim("avatar",!string.IsNullOrWhiteSpace(User.Avatar)?User.Avatar: string.Empty),
+                new Claim("OpenId",!string.IsNullOrWhiteSpace(User.OpenId)?User.OpenId: string.Empty)
                 //new Claim("",)
             });
             return jwtService.GetToken(claims);
