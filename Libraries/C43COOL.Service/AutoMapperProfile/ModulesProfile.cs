@@ -18,6 +18,8 @@ namespace C43COOL.Service.AutoMapperProfile
             CreateMap<ModulesModifyModel, Modules>().ReverseMap();
 
             CreateMap<ModulesInfoModel, Modules>().ReverseMap();
+
+            CreateMap<ModuleViewModel, Modules>().ReverseMap();
         }
     }
 }

@@ -110,7 +110,7 @@ namespace C43COOL.Service.Impl.Management
         public async Task<string> SignInWithPassword(LoginSignInWithPasswordModel model)
         {
             var User = await dbContext.User.FirstOrDefaultAsync(x => x.PhoneNumber == model.Account);
-            if (User != null)
+            if (User == null)
                 throw new Exception("账号不存在!");
             var pwd = model.Password.GetMd5WithSalt(Salt);
             if (User.Password != pwd)
@@ -121,10 +121,10 @@ namespace C43COOL.Service.Impl.Management
             claims.AddRange(new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, User.Id),
-                new Claim(IdentityModel.JwtClaimTypes.NickName,User.NickName),
-                new Claim(IdentityModel.JwtClaimTypes.Name,User.Name),
-                new Claim("avatar",!string.IsNullOrWhiteSpace(User.Avatar)?User.Avatar: string.Empty),
-                new Claim("OpenId",!string.IsNullOrWhiteSpace(User.OpenId)?User.OpenId: string.Empty)
+                new Claim(IdentityModel.JwtClaimTypes.NickName,User?.NickName ?? string.Empty),
+                new Claim(IdentityModel.JwtClaimTypes.Name,User?.Name ?? string.Empty),
+                new Claim("avatar",User?.Avatar ?? string.Empty),
+                new Claim("OpenId",User?.OpenId ?? string.Empty)
                 //new Claim("",)
             });
             return jwtService.GetToken(claims);

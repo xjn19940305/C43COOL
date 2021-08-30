@@ -25,7 +25,7 @@ namespace C43COOL.Service.Permission.Strategy
         }
         public IAuthStrategy GetAuthStrategyContext(string username)
         {
-            var WhiteList = configuration.GetValue<string[]>("WhiteList");
+            var WhiteList = configuration.GetSection("WhiteList").Get<string[]>();
             IAuthStrategy service = normalAuthStrategy;
             if (WhiteList.Any(x => x.Equals(username, StringComparison.OrdinalIgnoreCase)))
             {
