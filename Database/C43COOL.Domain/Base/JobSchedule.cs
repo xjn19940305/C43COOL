@@ -10,7 +10,6 @@ namespace C43COOL.Domain.Base
     public class JobSchedule
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-
         /// <summary>
         /// 任务名称
         /// </summary>

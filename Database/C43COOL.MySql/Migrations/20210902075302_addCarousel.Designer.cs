@@ -3,64 +3,21 @@ using System;
 using C43COOL.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace C43COOL.MySql.Migrations
 {
     [DbContext(typeof(C43DbContext))]
-    partial class C43DbContextModelSnapshot : ModelSnapshot
+    [Migration("20210902075302_addCarousel")]
+    partial class addCarousel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.5");
-
-            modelBuilder.Entity("C43COOL.Domain.Base.Article", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Author")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CategoryId1")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("DateModify")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("LinkCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ThumImg")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("ViewCount")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId1");
-
-                    b.ToTable("Article");
-                });
 
             modelBuilder.Entity("C43COOL.Domain.Base.Carousel", b =>
                 {
@@ -90,31 +47,6 @@ namespace C43COOL.MySql.Migrations
                     b.ToTable("Carousel");
                 });
 
-            modelBuilder.Entity("C43COOL.Domain.Base.Category", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("DateModify")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("ParentId")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int?>("Sort")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Category");
-                });
-
             modelBuilder.Entity("C43COOL.Domain.Base.Department", b =>
                 {
                     b.Property<string>("Id")
@@ -141,34 +73,6 @@ namespace C43COOL.MySql.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Department");
-                });
-
-            modelBuilder.Entity("C43COOL.Domain.Base.File", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("DateModify")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("FileType")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Path")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("File");
                 });
 
             modelBuilder.Entity("C43COOL.Domain.Base.JobSchedule", b =>
@@ -369,20 +273,6 @@ namespace C43COOL.MySql.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("C43COOL.Domain.Base.Article", b =>
-                {
-                    b.HasOne("C43COOL.Domain.Base.Category", "Category")
-                        .WithMany("Articles")
-                        .HasForeignKey("CategoryId1");
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("C43COOL.Domain.Base.Category", b =>
-                {
-                    b.Navigation("Articles");
                 });
 #pragma warning restore 612, 618
         }

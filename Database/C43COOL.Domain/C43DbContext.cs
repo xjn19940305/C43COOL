@@ -18,6 +18,14 @@ namespace C43COOL.Domain
 
         public DbSet<Relevance> Relevances { get; set; }
 
+        public DbSet<Carousel> Carousel { get; set; }
+
+        public DbSet<Files> Files { get; set; }
+
+        public DbSet<Category> Category { get; set; }
+
+        public DbSet<Article> Article { get; set; }
+
         public C43DbContext(DbContextOptions options) : base(options)
         {
         }

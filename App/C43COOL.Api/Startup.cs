@@ -6,7 +6,9 @@ using C43COOL.Redis;
 using C43COOL.ScheduleTask;
 using C43COOL.ScheduleTask.Jobs;
 using C43COOL.Service.Global;
+using C43COOL.Service.Impl;
 using C43COOL.Service.Impl.Management;
+using C43COOL.Service.Interface;
 using C43COOL.Service.Interface.Management;
 using C43COOL.Service.Permission.Strategy;
 using Microsoft.AspNetCore.Builder;
@@ -48,9 +50,9 @@ namespace C43COOL.Api
         public static readonly ILoggerFactory MyLoggerFactory
             = LoggerFactory.Create(builder =>
         {
-            #if DEBUG   
-                builder.AddConsole();
-            #endif
+#if DEBUG
+            builder.AddConsole();
+#endif
         });
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -239,7 +241,10 @@ namespace C43COOL.Api
             services.TryAddScoped<IRoleManagementService, RoleManagementService>();
             services.TryAddScoped<IModulesManagementService, ModulesManagementService>();
             services.TryAddScoped<IDepartmentManagementService, DepartmentManagementService>();
-
+            services.TryAddScoped<ICarouselManagementService, CarouselManagementService>();
+            services.TryAddScoped<IFileService, FileService>();
+            services.TryAddScoped<ICategoryMangementService, CategoryMangementService>();
+            services.TryAddScoped<IArticleMangementService, ArticleMangementService>();
             //²ßÂÔÄ£Ê½
             services.TryAddScoped<AdminAuthStrategy>();
             services.TryAddScoped<NormalAuthStrategy>();
@@ -258,7 +263,7 @@ namespace C43COOL.Api
             services.AddHostedService<CustomeScheduleHostService>();
 
             services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
-          
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
