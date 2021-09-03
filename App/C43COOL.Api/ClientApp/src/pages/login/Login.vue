@@ -122,7 +122,7 @@
 
 <script>
 import CommonLayout from "@/layouts/CommonLayout";
-import { login, getUserInfo } from "@/services/user";
+import { login, getUserInfo, getModules } from "@/services/user";
 // import { login, getRoutesConfig } from "@/services/user";
 import { setAuthorization } from "@/utils/request";
 // import { loadRoutes } from "@/utils/routerUtil";
@@ -165,10 +165,12 @@ export default {
         token: res.data,
         expireAt: new Date(new Date().getTime() + 240 * 1000 * 60),
       });
-      getUserInfo().then((res) => {        
+      getUserInfo().then((res) => {
         this.setUser(res.data);
       });
-
+      getModules().then((res) => {
+        console.log(res.data);
+      });
       // const { user, permissions, roles } = loginRes.data;
       // this.setUser(user);
       // this.setPermissions(permissions);

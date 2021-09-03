@@ -5,8 +5,10 @@ const BASE_URL = process.env.VUE_APP_BASE_URL
 console.log(process.env)
 module.exports = {
   LOGIN: `${BASE_URL}/api/mgt/User/SignInWithPassword`,
-  USERINFO:`${BASE_URL}/api/mgt/User/GetUserInfo`,
+  USERINFO: `${BASE_URL}/api/mgt/User/GetUserInfo`,
+  GETMODULESFROMTOKEN: `${BASE_URL}/api/mgt/User/GetModules`,
   ROUTES: `${BASE_URL}/routes`,
   GOODS: `${BASE_URL}/goods`,
   GOODS_COLUMNS: `${BASE_URL}/columns`,
+
 }

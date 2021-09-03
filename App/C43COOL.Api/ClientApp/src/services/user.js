@@ -1,4 +1,4 @@
-import { LOGIN, ROUTES, USERINFO } from '@/services/api'
+import { LOGIN, ROUTES, USERINFO, GETMODULESFROMTOKEN } from '@/services/api'
 import { request, METHOD, removeAuthorization } from '@/utils/request'
 
 /**
@@ -15,6 +15,9 @@ export async function login(Account, Password) {
 }
 export async function getUserInfo() {
   return request(USERINFO, METHOD.GET)
+}
+export async function getModules() {
+  return request(GETMODULESFROMTOKEN, METHOD.GET)
 }
 export async function getRoutesConfig() {
   return request(ROUTES, METHOD.GET)
