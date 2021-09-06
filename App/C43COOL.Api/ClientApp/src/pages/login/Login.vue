@@ -125,7 +125,7 @@ import CommonLayout from "@/layouts/CommonLayout";
 import { login, getUserInfo, getModules } from "@/services/user";
 // import { login, getRoutesConfig } from "@/services/user";
 import { setAuthorization } from "@/utils/request";
-// import { loadRoutes } from "@/utils/routerUtil";
+import { loadRoutes, formatRoute } from "@/utils/routerUtil";
 import { mapMutations } from "vuex";
 export default {
   name: "Login",
@@ -170,19 +170,15 @@ export default {
       });
       getModules().then((res) => {
         console.log(res.data);
+        var routeConfig = formatRoute(
+          "root",
+          res.data.filter((f) => f.ModuleType == 0)
+        );
+        console.log(routeConfig);
+        loadRoutes(routeConfig);
+        this.$router.push("/auth/role");
+        // this.$message.success("登录成功", 3);
       });
-      // const { user, permissions, roles } = loginRes.data;
-      // this.setUser(user);
-      // this.setPermissions(permissions);
-      // this.setRoles(roles);
-
-      // // 获取路由配置
-      // getRoutesConfig().then((result) => {
-      //   const routesConfig = result.data.data;
-      //   loadRoutes(routesConfig);
-      //   this.$router.push("/dashboard/workplace");
-      //   this.$message.success(loginRes.message, 3);
-      // });
     },
   },
 };
