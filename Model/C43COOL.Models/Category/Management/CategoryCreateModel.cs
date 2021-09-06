@@ -8,9 +8,9 @@ namespace C43COOL.Models.Category.Management
 {
     public class CategoryCreateModel
     {
-        public string CategoryName { get; set; }
+        public string Name { get; set; }
 
-        public int ParentId { get; set; }
+        public string ParentId { get; set; }
         public int? Sort { get; set; }
     }
 
@@ -22,9 +22,9 @@ namespace C43COOL.Models.Category.Management
     public class CategoryDTO
     {
         public string Id { get; set; }
-        public string CategoryName { get; set; }
+        public string Name { get; set; }
 
-        public int ParentId { get; set; }
+        public string ParentId { get; set; }
         public int? Sort { get; set; }
         /// <summary>
         /// 创建时间

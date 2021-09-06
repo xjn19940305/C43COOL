@@ -28,7 +28,7 @@
               $t("reset")
             }}</a-button>
             <a @click="toggleAdvanced" style="margin-left: 8px">
-              {{ advanced ? "收起" : "展开" }}
+              {{ advanced ? $t("unexpand") : $t("expand") }}
               <a-icon :type="advanced ? 'up' : 'down'" />
             </a>
           </span>
@@ -129,7 +129,7 @@
 <script>
 export default {
   name: "RoleList",
-  i18n: require("./i18n"),
+  i18n: require("../i18n"),
   components: {},
   data() {
     return {
