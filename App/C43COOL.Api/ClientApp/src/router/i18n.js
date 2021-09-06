@@ -2,7 +2,7 @@ module.exports = {
   messages: {
     CN: {
       home: { name: '首页' },
-      resource: { name: '资源' }
+      resource: { name: '资源' },
     },
     US: {
       home: { name: 'home' },
