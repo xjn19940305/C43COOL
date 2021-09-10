@@ -70,5 +70,11 @@ namespace C43COOL.Service.Interface.Management
         /// <param name="RoleIds"></param>
         /// <returns></returns>
         Task BindRole(UserBindModel model);
+        /// <summary>
+        /// 根据用户ID获取用户绑定的角色ID
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        Task<string[]> GetBindRoleList(string UserId);
     }
 }

@@ -14,7 +14,7 @@ namespace C43COOL.Models.Role.Management
         public int Sort { get; set; }
     }
 
-    public class RoleModifyModel
+    public class RoleModifyModel : RoleCreateModel
     {
         public string Id { get; set; }
     }

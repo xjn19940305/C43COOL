@@ -10,5 +10,29 @@ module.exports = {
   ROUTES: `${BASE_URL}/routes`,
   GOODS: `${BASE_URL}/goods`,
   GOODS_COLUMNS: `${BASE_URL}/columns`,
-
+  ROLE: {
+    Query: `${BASE_URL}/api/mgt/Role/Query`,
+    Create: `${BASE_URL}/api/mgt/Role/Create`,
+    Modify: `${BASE_URL}/api/mgt/Role/Modify`,
+    Get: `${BASE_URL}/api/mgt/Role/Get`,
+    Delete: `${BASE_URL}/api/mgt/Role/Delete`,
+    GetRoleMenus:`${BASE_URL}/api/mgt/Role/GetRoleMenus`,
+    AuthorizeRoleMenu:`${BASE_URL}/api/mgt/Role/AuthorizeRoleMenu`,
+  },
+  MODULE: {
+    Query: `${BASE_URL}/api/mgt/Modules/Query`,
+    Create: `${BASE_URL}/api/mgt/Modules/Create`,
+    Modify: `${BASE_URL}/api/mgt/Modules/Modify`,
+    Get: `${BASE_URL}/api/mgt/Modules/Get`,
+    Delete: `${BASE_URL}/api/mgt/Modules/Delete`,
+  },
+  USER:{
+    Query: `${BASE_URL}/api/mgt/User/Query`,
+    Create: `${BASE_URL}/api/mgt/User/Create`,
+    Modify: `${BASE_URL}/api/mgt/User/Modify`,
+    Get: `${BASE_URL}/api/mgt/User/Get`,
+    Delete: `${BASE_URL}/api/mgt/User/Delete`,
+    GetRoleList:`${BASE_URL}/api/mgt/User/GetBindRoleList`,
+    SaveUserRole:`${BASE_URL}/api/mgt/User/BindRole`,
+  }
 }

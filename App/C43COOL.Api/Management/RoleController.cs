@@ -62,7 +62,7 @@ namespace C43COOL.Api.Management
         /// <param name="ids"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] string[] ids)
+        public async Task<IActionResult> Delete([FromQuery] string[] ids)
         {
             await service.Delete(ids);
             return Ok();

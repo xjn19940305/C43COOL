@@ -58,6 +58,11 @@ const routerMap = {
     name: '模块管理',
     path: 'route',
     component: () => import('@/pages/auth/route')
+  },
+  account: {
+    name: '用户管理',
+    path: 'account',
+    component: () => import('@/pages/auth/account')
   }
 }
 export default routerMap

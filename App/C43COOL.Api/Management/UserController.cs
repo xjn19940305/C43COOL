@@ -130,5 +130,16 @@ namespace C43COOL.Api.Management
             await service.BindRole(model);
             return Ok();
         }
+
+        /// <summary>
+        /// 根据用户ID获取绑定的角色
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetBindRoleList([FromQuery] string UserId)
+        {
+            return Ok(await service.GetBindRoleList(UserId));
+        }
     }
 }

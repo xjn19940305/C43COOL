@@ -40,7 +40,7 @@ namespace C43COOL.Service.Impl.Management
             var model = new PagedViewModel();
             var data = dbContext.Roles.AsNoTracking();
             model.TotalElements = data.Count();
-            model.Data = await data.OrderByDescending(x => x.Sort)
+            model.Data = await data.OrderBy(x => x.Sort)
                 .Skip((request.page - 1) * request.pageSize)
                 .Take(request.pageSize).ToListAsync();
             return model;

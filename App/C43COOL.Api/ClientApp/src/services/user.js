@@ -1,4 +1,4 @@
-import { LOGIN, ROUTES, USERINFO, GETMODULESFROMTOKEN } from '@/services/api'
+import { LOGIN, ROUTES, USERINFO, GETMODULESFROMTOKEN, USER } from '@/services/api'
 import { request, METHOD, removeAuthorization } from '@/utils/request'
 
 /**
@@ -32,8 +32,62 @@ export function logout() {
   localStorage.removeItem(process.env.VUE_APP_ROLES_KEY)
   removeAuthorization()
 }
+export var UserApi = {
+  getList(params) {
+    params = params || {}
+    // var RoleName = params.RoleName || ''
+    return request(
+      `${USER.Query}`,
+      METHOD.GET,
+      params
+    )
+  },
+  Create(data) {
+    return request(
+      `${USER.Create}`,
+      METHOD.POST,
+      data
+    )
+  },
+  Modify(data) {
+    return request(
+      `${USER.Modify}`,
+      METHOD.PUT,
+      data
+    )
+  },
+  Get(params) {
+    return request(
+      `${USER.Get}`,
+      METHOD.Get,
+      params
+    )
+  },
+  Delete(params) {
+    return request(
+      `${USER.Delete}?${params}`,
+      METHOD.DELETE,
+    )
+  },
+  GetBindRoleList(params) {
+    return request(
+      `${USER.GetRoleList}`,
+      METHOD.Get,
+      params
+    )
+  },
+  SaveUserRole(data) {
+    return request(
+      `${USER.SaveUserRole}`,
+      METHOD.POST,
+      data
+    )
+  }
+}
+
 export default {
   login,
   logout,
-  getRoutesConfig
+  getRoutesConfig,
+  UserApi
 }

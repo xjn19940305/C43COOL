@@ -7,7 +7,7 @@
             <a-col :md="8" :sm="24">
               <a-form-model-item
                 ref="Name"
-                :label="$t('RoleName')"
+                :label="$t('Name')"
                 :labelCol="{ span: 6 }"
                 :wrapperCol="{ span: 12, offset: 0 }"
                 prop="Name"
@@ -46,13 +46,18 @@
         :row-selection="rowSelection"
         @change="handleTableChange"
       >
-        <a-table-column key="Name" data-index="Name" :title="$t('RoleName')" />
+        <a-table-column key="Name" data-index="Name" :title="$t('Name')" />
+        <a-table-column key="Email" data-index="Email" :title="$t('Email')" />
         <a-table-column
-          key="Description"
-          data-index="Description"
-          :title="$t('Description')"
+          key="PhoneNumber"
+          data-index="PhoneNumber"
+          :title="$t('PhoneNumber')"
         />
-        <a-table-column key="Sort" data-index="Sort" :title="$t('Sort')" />
+        <a-table-column
+          key="DateCreated"
+          data-index="DateCreated"
+          :title="$t('DateCreated')"
+        />
         <a-table-column key="action" :title="$t('Action')">
           <template slot-scope="text, record">
             <span>
@@ -61,9 +66,9 @@
               </a>
               <a
                 style="margin-right: 8px"
-                @click="$refs.menuSelectModule.Show(record.Id)"
+                @click="$refs.roleSelectModule.ShowC(record.Id)"
               >
-                <a-icon type="edit" />{{ $t("BindModule") }}
+                <a-icon type="bold" />{{ $t("BindRole") }}
               </a>
             </span>
           </template>
@@ -80,48 +85,45 @@
       @ok="handleConfirm"
     >
       <a-form-model
-        ref="RoleForm"
-        :model="RoleForm"
+        ref="UserForm"
+        :model="UserForm"
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
         :rules="rules"
       >
-        <a-form-model-item :label="$t('RoleName')" prop="Name">
+        <a-form-model-item :label="$t('Name')" prop="Name">
           <a-input
-            :placeholder="$t('RoleName')"
+            :placeholder="$t('Name')"
             @keydown.native.stop="handleKeyDown"
-            v-model="RoleForm.Name"
+            v-model="UserForm.Name"
           />
         </a-form-model-item>
-        <a-form-model-item :label="$t('Description')" prop="Description">
+        <a-form-model-item :label="$t('NickName')" prop="Description">
           <a-input
-            :placeholder="$t('Description')"
+            :placeholder="$t('NickName')"
             @keydown.native.stop="handleKeyDown"
-            v-model="RoleForm.Description"
+            v-model="UserForm.NickName"
           />
         </a-form-model-item>
-        <a-form-model-item :label="$t('Sort')" prop="Sort">
+        <a-form-model-item :label="$t('PhoneNumber')" prop="Sort">
           <a-input
-            :placeholder="$t('Sort')"
+            :placeholder="$t('PhoneNumber')"
             @keydown.native.stop="handleKeyDown"
-            v-model="RoleForm.Sort"
+            v-model="UserForm.PhoneNumber"
           />
         </a-form-model-item>
       </a-form-model>
     </a-modal>
-    <menu-select-module ref="menuSelectModule"></menu-select-module>
+    <role-select-module ref="roleSelectModule"></role-select-module>
   </a-card>
 </template>
 
 <script>
-import RoleApi from "@/services/role.js";
-import menuSelectModule from "@/pages/auth/PermissionComponent/menuSelectModule";
+import { UserApi } from "@/services/user.js";
+import roleSelectModule from "@/pages/auth/PermissionComponent/roleSelectModule";
 export default {
-  name: "RoleList",
+  name: "UserList",
   i18n: require("../i18n"),
-  components: {
-    menuSelectModule,
-  },
   mounted() {
     this.fetch();
   },
@@ -146,10 +148,10 @@ export default {
       dialogTitle: "",
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
-      RoleForm: {
+      UserForm: {
         Name: "",
-        Description: "",
-        Sort: 0,
+        NickName: "",
+        PhoneNumber: "",
       },
       rules: {
         Name: [
@@ -157,6 +159,9 @@ export default {
         ],
       },
     };
+  },
+  components: {
+    roleSelectModule,
   },
   computed: {
     rowSelection: function () {
@@ -182,8 +187,8 @@ export default {
       this.Operation = "Modify";
       this.show = true;
       this.dialogTitle = this.$t("Modify");
-      var data = (await RoleApi.Get({ Id: id })).data;
-      this.RoleForm = data;
+      var data = (await UserApi.Get({ UserId: id })).data;
+      this.UserForm = data;
     },
     async Delete() {
       console.log("select", this.selectedRowKeys);
@@ -195,7 +200,7 @@ export default {
         .toString();
       console.log(postData);
       this.deleteLoading = true;
-      await RoleApi.Delete(postData);
+      await UserApi.Delete(postData);
       this.selectedRowKeys = [];
       this.deleteLoading = false;
       this.$message.success("删除成功", 2);
@@ -207,7 +212,7 @@ export default {
       params.page = params.page || pagination.defaultCurrent;
       params.pageSize = params.pageSize || pagination.defaultPageSize;
       this.loading = true;
-      var res = (await RoleApi.getList(params)).data;
+      var res = (await UserApi.getList(params)).data;
       pagination.total = Number(res.TotalElements);
       this.loading = false;
       var result = res.Data || [];
@@ -241,7 +246,7 @@ export default {
     },
     handleCancel() {
       console.log("cancel");
-      this.$refs.RoleForm.resetFields();
+      this.$refs.UserForm.resetFields();
     },
     handleKeyDown(e) {
       var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
@@ -251,17 +256,17 @@ export default {
       }
     },
     handleConfirm() {
-      this.$refs.RoleForm.validate(async (valid) => {
+      this.$refs.UserForm.validate(async (valid) => {
         if (valid) {
-          console.log(this.RoleForm);
+          console.log(this.UserForm);
           if (this.Operation == "Create") {
-            await RoleApi.Create(this.RoleForm);
+            await UserApi.Create(this.UserForm);
             this.$message.success("创建成功", 2);
           } else {
-            await RoleApi.Modify(this.RoleForm);
+            await UserApi.Modify(this.UserForm);
             this.$message.success("修改成功", 2);
           }
-          this.$refs.RoleForm.resetFields();
+          this.$refs.UserForm.resetFields();
           this.show = false;
           this.query();
         } else {

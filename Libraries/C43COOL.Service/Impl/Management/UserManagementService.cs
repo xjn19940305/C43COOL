@@ -154,7 +154,13 @@ namespace C43COOL.Service.Impl.Management
                     });
                 }
             }
+            dbContext.RemoveRange(userRole);
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<string[]> GetBindRoleList(string UserId)
+        {
+            return await dbContext.Relevances.Where(x => x.Key == Define.USERROLE && x.FirstId == UserId).Select(f => f.SencondId).ToArrayAsync();
         }
     }
 }
