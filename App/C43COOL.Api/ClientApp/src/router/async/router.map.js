@@ -19,15 +19,9 @@ const routerMap = {
     component: view.tabs
   },
   dashboard: {
-        authority: '*',
-
-
-    name: 'Dashboard',
-    component: view.blank
-  },
-  workplace: {
-    name: '工作台',
-    component: () => import('@/pages/dashboard/workplace')
+    name: '目视板',
+    path: 'dashboard',
+    component: () => import('@/pages/public/dashboard')
   },
   exp403: {
     authority: '*',

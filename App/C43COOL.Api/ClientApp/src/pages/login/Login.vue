@@ -169,6 +169,14 @@ export default {
         this.setUser(res.data);
       });
       getModules().then((res) => {
+        res.data.push({
+          ModuleName: "root",
+          ModuleType: 0,
+          Name: "目视板",
+          Path: "dashboard",
+          ParentId: "",
+          ComponentUrl: "pages/public/dashboard",
+        });
         console.log(res.data);
         var routeConfig = formatRoute(
           "root",
@@ -176,8 +184,8 @@ export default {
         );
         console.log(routeConfig);
         loadRoutes(routeConfig);
-        this.$router.push("/auth/role");
-        // this.$message.success("登录成功", 3);
+        this.$router.push("/dashboard");
+        this.$message.success("登录成功", 3);
       });
     },
   },
