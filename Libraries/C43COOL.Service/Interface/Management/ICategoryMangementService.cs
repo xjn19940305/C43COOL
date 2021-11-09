@@ -1,4 +1,5 @@
 ﻿using C43COOL.Models.Category.Management;
+using C43COOL.Models.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,6 @@ namespace C43COOL.Service.Interface.Management
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<List<CategoryDTO>> Query(CategoryRequest request);
+        Task<PagedViewModel> Query(CategoryRequest request);
     }
 }

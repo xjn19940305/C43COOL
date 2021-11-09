@@ -2,6 +2,7 @@
 using C43COOL.Domain;
 using C43COOL.Domain.Base;
 using C43COOL.Models.Category.Management;
+using C43COOL.Models.Paging;
 using C43COOL.Service.Interface.Management;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -53,12 +54,16 @@ namespace C43COOL.Service.Impl.Management
             return data;
         }
 
-        public async Task<List<CategoryDTO>> Query(CategoryRequest request)
+        public async Task<PagedViewModel> Query(CategoryRequest request)
         {
             var data = await mapper.ProjectTo<CategoryDTO>(dbContext.Category
                    .OrderBy(x => x.Sort))
                    .ToListAsync();
-            return data;
+            return new PagedViewModel
+            {
+                Data = data,
+                TotalElements = data.Count
+            };
         }
     }
 }

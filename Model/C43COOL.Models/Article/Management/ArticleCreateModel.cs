@@ -64,5 +64,7 @@ namespace C43COOL.Models.Article.Management
         public string ThumImg { get; set; }
 
         public string CategoryId { get; set; }
+
+        public DateTime DateCreated { get; set; }
     }
 }

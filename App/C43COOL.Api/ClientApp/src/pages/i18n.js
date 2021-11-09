@@ -32,7 +32,11 @@ module.exports = {
       PhoneNumber: '手机号',
       DateCreated: '创建日期',
       BindRole: '绑定角色',
-      BindModule: '绑定模块'
+      BindModule: '绑定模块',
+      CategoryName: '分类名称',
+      Title: '标题',
+      Author: '作者',
+      LinkCount: '点击数'
     },
     US: {
       query: 'Query',
@@ -63,7 +67,11 @@ module.exports = {
       Parent: 'Parent',
       Email: 'Email',
       PhoneNumber: 'PhoneNumber',
-      DateCreated: 'DateCreated'
+      DateCreated: 'DateCreated',
+      CategoryName: 'Category Name',
+      Title: 'Title',
+      Author: 'Author',
+      LinkCount: 'Link Count'
     },
   }
 }

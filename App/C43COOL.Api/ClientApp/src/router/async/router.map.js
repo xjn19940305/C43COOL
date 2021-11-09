@@ -57,6 +57,25 @@ const routerMap = {
     name: '用户管理',
     path: 'account',
     component: () => import('@/pages/auth/account')
+  },
+  resource: {
+    name: '资源',
+    component: view.page
+  },
+  category: {
+    name: '分类管理',
+    path: 'category',
+    component: () => import('@/pages/resource/category')
+  },
+  article: {
+    name: '文章管理',
+    path: 'article',
+    component: () => import('@/pages/resource/article')
+  },
+  articleDetail: {
+    name: '文章详情',
+    path: 'articleDetail',
+    component: () => import('@/pages/resource/articleDetail')
   }
 }
 export default routerMap

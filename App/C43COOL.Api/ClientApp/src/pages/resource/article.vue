@@ -6,13 +6,24 @@
           <a-row>
             <a-col :md="8" :sm="24">
               <a-form-model-item
-                ref="Name"
-                :label="$t('Name')"
+                ref="Title"
+                :label="$t('Title')"
                 :labelCol="{ span: 6 }"
                 :wrapperCol="{ span: 12, offset: 0 }"
-                prop="Name"
+                prop="Title"
               >
-                <a-input v-model="queryFormModel.Name" />
+                <a-input v-model="queryFormModel.Title" />
+              </a-form-model-item>
+            </a-col>
+            <a-col :md="8" :sm="24">
+              <a-form-model-item
+                ref="Author"
+                :label="$t('Author')"
+                :labelCol="{ span: 6 }"
+                :wrapperCol="{ span: 12, offset: 0 }"
+                prop="Author"
+              >
+                <a-input v-model="queryFormModel.Author" />
               </a-form-model-item>
             </a-col>
             <a-col :md="8" :sm="24">
@@ -46,12 +57,21 @@
         :row-selection="rowSelection"
         @change="handleTableChange"
       >
-        <a-table-column key="Name" data-index="Name" :title="$t('Name')" />
-        <a-table-column key="Email" data-index="Email" :title="$t('Email')" />
+        <a-table-column key="Title" data-index="Title" :title="$t('Title')" />
         <a-table-column
-          key="PhoneNumber"
-          data-index="PhoneNumber"
-          :title="$t('PhoneNumber')"
+          key="Author"
+          data-index="Author"
+          :title="$t('Author')"
+        />
+        <a-table-column
+          key="Description"
+          data-index="Description"
+          :title="$t('Description')"
+        />
+        <a-table-column
+          key="LinkCount"
+          data-index="LinkCount"
+          :title="$t('LinkCount')"
         />
         <a-table-column
           key="DateCreated"
@@ -64,66 +84,19 @@
               <a style="margin-right: 8px" @click="Modify(record.Id)">
                 <a-icon type="edit" />{{ $t("Modify") }}
               </a>
-              <a
-                style="margin-right: 8px"
-                @click="$refs.roleSelectModule.ShowC(record.Id)"
-              >
-                <a-icon type="bold" />{{ $t("BindRole") }}
-              </a>
             </span>
           </template>
         </a-table-column>
       </a-table>
     </div>
-    <a-modal
-      :title="dialogTitle"
-      v-model="show"
-      :centered="true"
-      :maskClosable="false"
-      :width="800"
-      @cancel="handleCancel"
-      @ok="handleConfirm"
-    >
-      <a-form-model
-        ref="UserForm"
-        :model="UserForm"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        :rules="rules"
-      >
-        <a-form-model-item :label="$t('Name')" prop="Name">
-          <a-input
-            :placeholder="$t('Name')"
-            @keydown.native.stop="handleKeyDown"
-            v-model="UserForm.Name"
-          />
-        </a-form-model-item>
-        <a-form-model-item :label="$t('NickName')" prop="Description">
-          <a-input
-            :placeholder="$t('NickName')"
-            @keydown.native.stop="handleKeyDown"
-            v-model="UserForm.NickName"
-          />
-        </a-form-model-item>
-        <a-form-model-item :label="$t('PhoneNumber')" prop="Sort">
-          <a-input
-            :placeholder="$t('PhoneNumber')"
-            @keydown.native.stop="handleKeyDown"
-            v-model="UserForm.PhoneNumber"
-          />
-        </a-form-model-item>
-      </a-form-model>
-    </a-modal>
-    <role-select-module ref="roleSelectModule"></role-select-module>
   </a-card>
 </template>
 
 <script>
-import { UserApi } from "@/services/user.js";
-import roleSelectModule from "@/pages/auth/PermissionComponent/roleSelectModule";
+import ArticleApi from "@/services/article.js";
 import { formatUtc } from "@/utils/timeformat";
 export default {
-  name: "UserList",
+  name: "ArticlePage",
   i18n: require("../i18n"),
   mounted() {
     this.fetch();
@@ -133,7 +106,8 @@ export default {
       Operation: "",
       selectedRowKeys: [],
       queryFormModel: {
-        Name: "",
+        Title: "",
+        Author: "",
       },
       data: [],
       loading: false,
@@ -146,24 +120,9 @@ export default {
       show: false,
       deleteDisable: true,
       deleteLoading: false,
-      dialogTitle: "",
-      labelCol: { span: 4 },
-      wrapperCol: { span: 14 },
-      UserForm: {
-        Name: "",
-        NickName: "",
-        PhoneNumber: "",
-      },
-      rules: {
-        Name: [
-          { required: true, message: this.$t("REQUIRED"), trigger: "change" },
-        ],
-      },
     };
   },
-  components: {
-    roleSelectModule,
-  },
+  components: {},
   computed: {
     rowSelection: function () {
       return {
@@ -180,16 +139,10 @@ export default {
       this.selectedRowKeys = selectedRowKeys;
     },
     Create() {
-      this.Operation = "Create";
-      this.show = true;
-      this.dialogTitle = this.$t("Create");
+      this.$router.push({ path: "/resource/articleDetail" });
     },
     async Modify(id) {
-      this.Operation = "Modify";
-      this.show = true;
-      this.dialogTitle = this.$t("Modify");
-      var data = (await UserApi.Get({ UserId: id })).data;
-      this.UserForm = data;
+      console.log(id);
     },
     async Delete() {
       console.log("select", this.selectedRowKeys);
@@ -201,7 +154,7 @@ export default {
         .toString();
       console.log(postData);
       this.deleteLoading = true;
-      await UserApi.Delete(postData);
+      await ArticleApi.Delete(postData);
       this.selectedRowKeys = [];
       this.deleteLoading = false;
       this.$message.success("删除成功", 2);
@@ -213,12 +166,12 @@ export default {
       params.page = params.page || pagination.defaultCurrent;
       params.pageSize = params.pageSize || pagination.defaultPageSize;
       this.loading = true;
-      var res = (await UserApi.getList(params)).data;
+      var res = (await ArticleApi.Query(params)).data;
       pagination.total = Number(res.TotalElements);
       this.loading = false;
       var result = res.Data || [];
       result.map((f) => {
-        f.DateCreated = formatUtc(f.DateCreated, "yyyy-MM-DD HH:mm:ss");      
+        f.DateCreated = formatUtc(f.DateCreated, "yyyy-MM-DD HH:mm:ss");
         return f;
       });
       this.data = result;
@@ -249,36 +202,12 @@ export default {
     ResetQueryForm() {
       this.$refs.queryForm.resetFields();
     },
-    handleCancel() {
-      console.log("cancel");
-      this.$refs.UserForm.resetFields();
-    },
     handleKeyDown(e) {
       var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
       if (eCode === 13) {
         // 调用对应的方法
         this.handleConfirm();
       }
-    },
-    handleConfirm() {
-      this.$refs.UserForm.validate(async (valid) => {
-        if (valid) {
-          console.log(this.UserForm);
-          if (this.Operation == "Create") {
-            await UserApi.Create(this.UserForm);
-            this.$message.success("创建成功", 2);
-          } else {
-            await UserApi.Modify(this.UserForm);
-            this.$message.success("修改成功", 2);
-          }
-          this.$refs.UserForm.resetFields();
-          this.show = false;
-          this.query();
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
     },
   },
 };

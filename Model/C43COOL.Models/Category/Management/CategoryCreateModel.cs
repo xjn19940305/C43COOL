@@ -29,7 +29,7 @@ namespace C43COOL.Models.Category.Management
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime CreateDate { get; set; }
+        public DateTime DateCreated { get; set; }
         /// <summary>
         /// 修改时间
         /// </summary>
