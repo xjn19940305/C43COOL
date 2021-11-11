@@ -1,6 +1,7 @@
 module.exports = {
   messages: {
     CN: {
+      Index: '首页',
       query: '查询',
       reset: '重置',
       unexpand: '收起',
@@ -36,7 +37,11 @@ module.exports = {
       CategoryName: '分类名称',
       Title: '标题',
       Author: '作者',
-      LinkCount: '点击数'
+      LinkCount: '点击数',
+      ThumImage: '缩略图',
+      Save: '保存',
+      Reset: '重置',
+      Article_Category: '文章分类'
     },
     US: {
       query: 'Query',
@@ -71,7 +76,12 @@ module.exports = {
       CategoryName: 'Category Name',
       Title: 'Title',
       Author: 'Author',
-      LinkCount: 'Link Count'
+      LinkCount: 'Link Count',
+      Index: 'Index',
+      ThumImage: 'Thum Image',
+      Save: 'Save',
+      Reset: 'Reset',
+      Article_Category: "Category"
     },
   }
 }

@@ -1,5 +1,5 @@
 import TabsView from '@/layouts/tabs/TabsView'
-import BlankView from '@/layouts/BlankView'
+// import BlankView from '@/layouts/BlankView'
 // import PageView from '@/layouts/PageView'
 
 // 路由配置
@@ -26,16 +26,8 @@ const options = {
       component: TabsView,
       redirect: '/login',
       children: [
-        {
-          path: 'dashboard',
-          name: 'Dashboard',
-          meta: {
-            icon: 'dashboard'
-          },
-          component: BlankView,
-        },
       ]
-    },
+    }
   ]
 }
 

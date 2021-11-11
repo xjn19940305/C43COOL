@@ -74,9 +74,10 @@ const routerMap = {
   },
   articleDetail: {
     name: '文章详情',
-    path: 'articleDetail',
-    component: () => import('@/pages/resource/articleDetail')
-  }
+    path: '/resource/articleDetail',
+    component: () => import('@/pages/resource/articleDetail'),
+    invisible: true
+  },
 }
 export default routerMap
 

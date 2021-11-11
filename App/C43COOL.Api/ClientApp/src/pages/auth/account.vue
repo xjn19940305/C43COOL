@@ -121,7 +121,7 @@
 <script>
 import { UserApi } from "@/services/user.js";
 import roleSelectModule from "@/pages/auth/PermissionComponent/roleSelectModule";
-import { formatUtc } from "@/utils/timeformat";
+import Tools from "@/utils/tools";
 export default {
   name: "UserList",
   i18n: require("../i18n"),
@@ -218,7 +218,7 @@ export default {
       this.loading = false;
       var result = res.Data || [];
       result.map((f) => {
-        f.DateCreated = formatUtc(f.DateCreated, "yyyy-MM-DD HH:mm:ss");      
+        f.DateCreated =  Tools.formatUtc(f.DateCreated, "yyyy-MM-DD HH:mm:ss");      
         return f;
       });
       this.data = result;

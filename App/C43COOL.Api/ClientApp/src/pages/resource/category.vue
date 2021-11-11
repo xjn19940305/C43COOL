@@ -94,7 +94,7 @@
 
 <script>
 import CategoryApi from "@/services/category.js";
-import { formatUtc } from "@/utils/timeformat";
+import Tools from "@/utils/tools";
 export default {
   name: "CategoryPage",
   i18n: require("../i18n"),
@@ -166,7 +166,7 @@ export default {
       this.loading = true;
       var local = (await CategoryApi.Query()).data.Data;
       local.map((f) => {
-        f.DateCreated = formatUtc(f.DateCreated, "yyyy-MM-DD HH:mm:ss");
+        f.DateCreated = Tools.formatUtc(f.DateCreated, "yyyy-MM-DD HH:mm:ss");
         return f;
       });
       this.CategoryData = local;

@@ -38,11 +38,11 @@ function parseRoutes(routesConfig, routerMap) {
     } else if (typeof item === 'object') {
       router = routerMap[item.router]
       routeCfg = item
-    }
+    }        
     if (!router) {
       console.warn(`can't find register for router ${routeCfg.router}, please register it in advance.`)
       router = typeof item === 'string' ? { path: item, name: item } : item
-    }
+    }    
     // 从 router 和 routeCfg 解析路由
     const meta = {
       authority: router.authority,

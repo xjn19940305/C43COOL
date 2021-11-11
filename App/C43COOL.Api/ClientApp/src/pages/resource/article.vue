@@ -94,7 +94,7 @@
 
 <script>
 import ArticleApi from "@/services/article.js";
-import { formatUtc } from "@/utils/timeformat";
+import Tools from "@/utils/tools";
 export default {
   name: "ArticlePage",
   i18n: require("../i18n"),
@@ -142,7 +142,7 @@ export default {
       this.$router.push({ path: "/resource/articleDetail" });
     },
     async Modify(id) {
-      console.log(id);
+      this.$router.push({ path: "/resource/articleDetail?Id=" + id });
     },
     async Delete() {
       console.log("select", this.selectedRowKeys);
@@ -171,7 +171,7 @@ export default {
       this.loading = false;
       var result = res.Data || [];
       result.map((f) => {
-        f.DateCreated = formatUtc(f.DateCreated, "yyyy-MM-DD HH:mm:ss");
+        f.DateCreated = Tools.formatUtc(f.DateCreated, "yyyy-MM-DD HH:mm:ss");
         return f;
       });
       this.data = result;

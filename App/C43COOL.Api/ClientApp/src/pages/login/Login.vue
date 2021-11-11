@@ -127,6 +127,7 @@ import { login, getUserInfo, getModules } from "@/services/user";
 import { setAuthorization } from "@/utils/request";
 import { loadRoutes, formatRoute } from "@/utils/routerUtil";
 import { mapMutations } from "vuex";
+import NoAuthRouterMap from "@/router/noAuthPage";
 export default {
   name: "Login",
   components: { CommonLayout },
@@ -169,19 +170,14 @@ export default {
         this.setUser(res.data);
       });
       getModules().then((res) => {
-        res.data.push({
-          ModuleName: "root",
-          ModuleType: 0,
-          Name: "目视板",
-          Path: "dashboard",
-          ParentId: "",
-          ComponentUrl: "pages/public/dashboard",
-        });
-        console.log(res.data);
+        var result = [...NoAuthRouterMap, ...res.data];        
+        console.log(res.result);
+        debugger
         var routeConfig = formatRoute(
           "root",
-          res.data.filter((f) => f.ModuleType == 0)
+          result.filter((f) => f.ModuleType == 0)
         );
+        
         console.log(routeConfig);
         loadRoutes(routeConfig);
         this.$router.push("/dashboard");

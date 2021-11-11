@@ -26,7 +26,7 @@ namespace C43COOL.Redis
             db = manager.GetDatabase();
         }
 
-        public async Task SetAsync<T>(string key, T value, DateTime? dt = null) where T : class
+        public async Task HashSetAsync<T>(string key, T value, DateTime? dt = null) where T : class
         {
             var typeName = typeof(T).FullName;
             var keyName = $"{prefix}:{typeName}";
@@ -45,7 +45,7 @@ namespace C43COOL.Redis
             if (dt != null)
                 await db.KeyExpireAsync(keyName, dt);
         }
-        public async Task<T> GetAsync<T>(string key) where T : class
+        public async Task<T> HashGetAsync<T>(string key) where T : class
         {
             try
             {
@@ -58,7 +58,12 @@ namespace C43COOL.Redis
             {
                 return default(T);
             }
-
+        }
+        public async Task HashDeleteAsync<T>(string key) where T : class
+        {
+            var typeName = typeof(T).FullName;
+            var keyName = $"{prefix}:{typeName}";
+            await db.HashDeleteAsync(keyName, key);
         }
         public async Task SetStringAsync(string key, string value, int expireSecond)
         {
@@ -70,7 +75,7 @@ namespace C43COOL.Redis
             return await db.StringGetAsync($"{prefix}:{key}");
         }
 
-        public async Task DeleteAsync(string key)
+        public async Task DeleteStringAsync(string key)
         {
             await db.KeyDeleteAsync(key);
         }
@@ -124,7 +129,7 @@ namespace C43COOL.Redis
         /// </summary>
         /// <param name="Channel"></param>
         /// <returns></returns>
-        public  async Task UnSubscribeAsync(string Channel)
+        public async Task UnSubscribeAsync(string Channel)
         {
             var sub = manager.GetSubscriber();
             await sub.UnsubscribeAsync(Channel);
