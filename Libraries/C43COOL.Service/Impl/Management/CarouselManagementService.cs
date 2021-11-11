@@ -66,7 +66,8 @@ namespace C43COOL.Service.Impl.Management
 
         public async Task<CarouselMangementDto> Get(string Id)
         {
-            return mapper.Map<CarouselMangementDto>(await dbContext.Carousel.FirstOrDefaultAsync(x => x.Id == Id));
+            var data = await dbContext.Carousel.FirstOrDefaultAsync(x => x.Id == Id);
+            return mapper.Map<CarouselMangementDto>(data);
         }
 
        

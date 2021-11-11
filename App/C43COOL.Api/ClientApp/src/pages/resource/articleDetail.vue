@@ -1,14 +1,16 @@
 <template>
   <a-card :bordered="false">
     <div style="margin-bottom: 15px">
-      <a-breadcrumb separator=">">
-        <a-breadcrumb-item href="dashboard">{{
-          $t("Index")
-        }}</a-breadcrumb-item>
-        <a-breadcrumb-item href=""> 资源 </a-breadcrumb-item>
-        <a-breadcrumb-item href="/resource/article">
-          文章管理
-        </a-breadcrumb-item>
+      <a-breadcrumb>
+        <a-breadcrumb-item
+          ><a href="/dashboard"> {{ $t("Index") }}</a></a-breadcrumb-item
+        >
+        <a-breadcrumb-item
+          ><a href="/resource/category">资源</a></a-breadcrumb-item
+        >
+        <a-breadcrumb-item
+          ><a href="/resource/article">文章管理</a></a-breadcrumb-item
+        >
         <a-breadcrumb-item>文章详情</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
@@ -19,19 +21,14 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
-      <a-form-model-item ref="Title" label="标题" prop="Title">
+      <a-form-model-item label="标题" prop="Title">
         <a-input v-model="form.Title" placeholder="请输入标题" />
       </a-form-model-item>
-      <a-form-model-item
-        ref="Category"
-        :label="$t('Article_Category')"
-        prop="CategoryId"
-      >
+      <a-form-model-item :label="$t('Article_Category')" prop="CategoryId">
         <a-tree-select
           :tree-data="treeData"
           :placeholder="$t('CHOOSEONE')"
           tree-default-expand-all
-          @select="GetTreeValue"
           v-model="form.CategoryId"
           :defaultExpandAllRows="true"
         >
@@ -40,13 +37,13 @@
           >
         </a-tree-select>
       </a-form-model-item>
-      <a-form-model-item ref="Author" label="作者" prop="Author">
+      <a-form-model-item label="作者" prop="Author">
         <a-input v-model="form.Author" placeholder="作者" />
       </a-form-model-item>
-      <a-form-model-item ref="Description" label="描述" prop="Description">
+      <a-form-model-item label="描述" prop="Description">
         <a-input v-model="form.Description" placeholder="描述" />
       </a-form-model-item>
-      <a-form-model-item ref="Img" :label="$t('ThumImage')" prop="Img">
+      <a-form-model-item :label="$t('ThumImage')" prop="Img">
         <a-upload
           name="avatar"
           list-type="picture-card"
@@ -66,7 +63,7 @@
           </div>
         </a-upload>
       </a-form-model-item>
-      <a-form-model-item>
+      <a-form-model-item :label="$t('Content')">
         <div id="div1"></div>
       </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
@@ -98,15 +95,23 @@ export default {
       wrapperCol: { span: 14 },
       other: "",
       treeData: [],
-      form: {
-        Title: "",
-        Content: "",
-        Description: "",
-        ThumImg: "",
-        CategoryId: "",
-      },
+      form: {},
       rules: {
         Title: [
+          {
+            required: true,
+            message: "请输入标题",
+            trigger: "change",
+          },
+        ],
+        CategoryId: [
+          {
+            required: true,
+            message: "请选择分 类",
+            trigger: "change",
+          },
+        ],
+        Author: [
           {
             required: true,
             message: "请输入标题",
@@ -132,6 +137,7 @@ export default {
         });
       });
     };
+    console.log(this.editor);
     this.editor.create();
     this.LoadSelectTree();
     this.Init();

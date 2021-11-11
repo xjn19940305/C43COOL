@@ -31,7 +31,7 @@ function parseRoutes(routesConfig, routerMap) {
   let routes = []
   routesConfig.forEach(item => {
     // 获取注册在 routerMap 中的 router，初始化 routeCfg
-    let router = undefined, routeCfg = {}
+    let router = undefined, routeCfg = {}  
     if (typeof item === 'string') {
       router = routerMap[item]
       routeCfg = { path: (router && router.path) || item, router: item }
@@ -42,7 +42,7 @@ function parseRoutes(routesConfig, routerMap) {
     if (!router) {
       console.warn(`can't find register for router ${routeCfg.router}, please register it in advance.`)
       router = typeof item === 'string' ? { path: item, name: item } : item
-    }    
+    }        
     // 从 router 和 routeCfg 解析路由
     const meta = {
       authority: router.authority,

@@ -15,6 +15,7 @@ namespace C43COOL.Service.AutoMapperProfile
         {
             CreateMap<CarouselCreateModel, Carousel>().ReverseMap();
             CreateMap<CarouselModifyModel, Carousel>().ReverseMap();
+            CreateMap<CarouselMangementDto, Carousel>().ReverseMap();
         }
     }
 }

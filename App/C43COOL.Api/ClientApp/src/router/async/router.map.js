@@ -60,7 +60,7 @@ const routerMap = {
   },
   resource: {
     name: '资源',
-    component: view.page
+    component: view.page,    
   },
   category: {
     name: '分类管理',
@@ -76,8 +76,13 @@ const routerMap = {
     name: '文章详情',
     path: '/resource/articleDetail',
     component: () => import('@/pages/resource/articleDetail'),
-    invisible: true
+    invisible: true,
   },
+  carousel:{
+    name: '轮播图',
+    path: 'carousel',
+    component: () => import('@/pages/resource/carousel')
+  }
 }
 export default routerMap
 

@@ -41,7 +41,10 @@ module.exports = {
       ThumImage: '缩略图',
       Save: '保存',
       Reset: '重置',
-      Article_Category: '文章分类'
+      Article_Category: '文章分类',
+      Content: '内容',
+      Link: '链接',
+      Image: '图片'
     },
     US: {
       query: 'Query',
@@ -81,7 +84,10 @@ module.exports = {
       ThumImage: 'Thum Image',
       Save: 'Save',
       Reset: 'Reset',
-      Article_Category: "Category"
+      Article_Category: "Category",
+      Content: 'Content',
+      Link: 'Link',
+      Image: 'Image'
     },
   }
 }
