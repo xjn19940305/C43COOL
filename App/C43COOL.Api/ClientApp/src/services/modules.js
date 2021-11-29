@@ -33,8 +33,9 @@ var ModuleApi = {
     },
     Delete(params) {
         return request(
-            `${MODULE.Delete}?${params}`,
+            `${MODULE.Delete}`,
             METHOD.DELETE,
+            params
         )
     }
 }

@@ -65,8 +65,9 @@ export var UserApi = {
   },
   Delete(params) {
     return request(
-      `${USER.Delete}?${params}`,
+      `${USER.Delete}`,
       METHOD.DELETE,
+      params
     )
   },
   GetBindRoleList(params) {

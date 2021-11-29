@@ -31,8 +31,9 @@ var CarouselApi = {
     },
     Delete(params) {
         return request(
-            `${BASE_URL}/Delete?${params}`,
-            METHOD.DELETE
+            `${BASE_URL}/Delete`,
+            METHOD.DELETE,
+            params
         )
     }
 }

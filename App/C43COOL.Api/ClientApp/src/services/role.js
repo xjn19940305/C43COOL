@@ -33,8 +33,9 @@ var RoleApi = {
     },
     Delete(params) {
         return request(
-            `${ROLE.Delete}?${params}`,
+            `${ROLE.Delete}`,
             METHOD.DELETE,
+            params
         )
     },
     GetRoleMenus(params) {

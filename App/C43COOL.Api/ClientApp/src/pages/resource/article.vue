@@ -146,15 +146,8 @@ export default {
     },
     async Delete() {
       console.log("select", this.selectedRowKeys);
-      var postData = this.selectedRowKeys
-        .map((f) => {
-          return "ids=" + f;
-        })
-        .join("&")
-        .toString();
-      console.log(postData);
       this.deleteLoading = true;
-      await ArticleApi.Delete(postData);
+      await ArticleApi.Delete({ data: this.selectedRowKeys });
       this.selectedRowKeys = [];
       this.deleteLoading = false;
       this.$message.success("删除成功", 2);

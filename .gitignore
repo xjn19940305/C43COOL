@@ -7,7 +7,7 @@
 [Rr]eleases/
 x64/
 x86/
-
+tmp/
 bld/
 [Bb]in/
 [Oo]bj/

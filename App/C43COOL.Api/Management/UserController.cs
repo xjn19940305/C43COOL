@@ -137,7 +137,7 @@ namespace C43COOL.Api.Management
         /// <param name="UserId"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetBindRoleList([FromQuery] string UserId)
+        public async Task<IActionResult> GetBindRoleList([FromBody] string UserId)
         {
             return Ok(await service.GetBindRoleList(UserId));
         }

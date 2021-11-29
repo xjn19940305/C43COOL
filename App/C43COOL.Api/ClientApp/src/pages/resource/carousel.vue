@@ -173,16 +173,9 @@ export default {
       this.form = data;
     },
     async Delete() {
-      console.log("select", this.selectedRowKeys);
-      var postData = this.selectedRowKeys
-        .map((f) => {
-          return "ids=" + f;
-        })
-        .join("&")
-        .toString();
-      console.log(postData);
+      console.log("select", this.selectedRowKeys);      
       this.deleteLoading = true;
-      await CarouselApi.Delete(postData);
+      await CarouselApi.Delete({ data: this.selectedRowKeys });
       this.selectedRowKeys = [];
       this.deleteLoading = false;
       this.$message.success("删除成功", 2);

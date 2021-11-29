@@ -193,15 +193,8 @@ export default {
     },
     async Delete() {
       console.log("select", this.selectedRowKeys);
-      var postData = this.selectedRowKeys
-        .map((f) => {
-          return "ids=" + f;
-        })
-        .join("&")
-        .toString();
-      console.log(postData);
       this.deleteLoading = true;
-      await UserApi.Delete(postData);
+      await UserApi.Delete({ data: this.selectedRowKeys });
       this.selectedRowKeys = [];
       this.deleteLoading = false;
       this.$message.success("删除成功", 2);
@@ -218,7 +211,7 @@ export default {
       this.loading = false;
       var result = res.Data || [];
       result.map((f) => {
-        f.DateCreated =  Tools.formatUtc(f.DateCreated, "yyyy-MM-DD HH:mm:ss");      
+        f.DateCreated = Tools.formatUtc(f.DateCreated, "yyyy-MM-DD HH:mm:ss");
         return f;
       });
       this.data = result;
