@@ -54,7 +54,7 @@ namespace C43COOL.Api.Management
         public async Task<IActionResult> Modify([FromBody] DepartmentModifyModel model)
         {
             await service.Modify(model);
-            return Ok();
+            return Ok(); 
         }
         /// <summary>
         /// 删除部门
